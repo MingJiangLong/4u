@@ -1,0 +1,15 @@
+import ArrayUtil from "./src/array_util";
+import Util, { assert } from "./src/common_util";
+import event_bus from "./src/event_bus";
+import NumberUtil from "./src/number_util";
+import StringUtil from "./src/string_util";
+import TypeUtil from "./src/type_util";
+export default {
+    ArrayUtil,
+    Util,
+    NumberUtil,
+    StringUtil,
+    TypeUtil,
+    EventBus: event_bus,
+    assert
+}
