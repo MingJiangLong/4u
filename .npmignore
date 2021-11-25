@@ -3,6 +3,6 @@ node_modules
 src
 test
 .gitignore
-index.ts
 tsconfig.json
 package-lock.json
+yarn.lock

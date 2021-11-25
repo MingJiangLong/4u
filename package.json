@@ -1,15 +1,21 @@
 {
-  "name": "4u",
+  "name": "@longjiang/4u",
   "version": "1.0.0",
-  "description": "",
-  "main": "./4u/index.js",
-  "keywords": [],
-  "author": "longjiang",
-  "license": "ISC",
-  "dependencies": {},
+  "description": "自用小工具",
+  "main": "./dist/index.js",
+  "keywords": [
+    "typescript"
+  ],
   "devDependencies": {
     "@types/node": "^16.11.6",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
-  }
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "longjiang",
+  "license": "ISC",
+  "type": "module",
+  "types": "./dist/@types"
 }
