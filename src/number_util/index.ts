@@ -4,10 +4,11 @@
  * 2. 化为整数 会出现部分精度问题 2.2*100,2.3*100,,4.1*100
  * @param args 
  */
-export function Number_add(...args: number[]) {
+function add(...args: number[]) {
     let [leftArr, rightArr] = [[] as string[], [] as string[]]
     const argsStrArr = args.map(v => `${v}`);
     let maxRightItemLength = 0;
+
     // 分离整数和小数部分
     argsStrArr.forEach(v => {
         const [leftItem, rightItem] = v.split('.');
@@ -62,8 +63,9 @@ export function Number_add(...args: number[]) {
     const tempt = `${leftTotal}.${rightTotalStr}`
     return +tempt;
 }
+
 const NumberUtil = {
-    add: Number_add
+    add
 }
 
 export default NumberUtil;

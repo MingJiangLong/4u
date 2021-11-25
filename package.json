@@ -2,7 +2,7 @@
   "name": "4u",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./4u/index.js",
   "keywords": [],
   "author": "longjiang",
   "license": "ISC",

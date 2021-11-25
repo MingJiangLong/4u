@@ -1,5 +1,4 @@
-import { Array_deleteItem, Array_find } from "../array_util";
-
+import ArrayUtil from "../array_util";
 /**
  * EVENT BUS
  * * 支持一个event 添加多个监听函数
@@ -20,7 +19,7 @@ class EventBus implements IEventBus {
         callback: (...args: T extends Array<infer E> ? E[] : T[]) => void,
         once = false,
     ) {
-        let findResult = Array_find(this.events, (item) => {
+        let findResult = ArrayUtil.findOneItem(this.events, (item) => {
             return item.eventName === eventName
         })
 
@@ -56,15 +55,15 @@ class EventBus implements IEventBus {
     };
 
     private remove(eventName: string, key: string) {
-        let findItem = Array_find(this.events, (event) => {
+        let findItem = ArrayUtil.findOneItem(this.events, (event) => {
             return event.eventName === eventName
         });
         if (!!!findItem) return;
-        Array_deleteItem(findItem.callbacks, (callback) => callback.key === key)
+        ArrayUtil.deleteAll(findItem.callbacks, (callback) => callback.key === key)
     }
 
     emit(eventName: string, ...args: any[]) {
-        const event = Array_find(this.events, (event) => event.eventName === eventName);
+        const event = ArrayUtil.findOneItem(this.events, (event) => event.eventName === eventName);
 
         if (!!!event) return;
         if (!!!event.callbacks.length) return this.clearEvent(eventName);
@@ -72,11 +71,11 @@ class EventBus implements IEventBus {
         event.callbacks.forEach((callback, index) => {
             callback.callback(...args)
         })
-        Array_deleteItem(event.callbacks, (callback) => callback.once === true)
+        ArrayUtil.deleteAll(event.callbacks, (callback) => callback.once === true)
     };
 
     clearEvent(eventName: string) {
-        Array_deleteItem(this.events, (event) => event.eventName === eventName)
+        ArrayUtil.deleteAll(this.events, (event) => event.eventName === eventName)
     }
 
     clear() {
@@ -107,7 +106,7 @@ interface IEventBus {
      * 触发事件
      */
     emit: (eventName: string, ...args: any[]) => void
-    
+
     /**
      * 清除事件
      */

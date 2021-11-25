@@ -63,5 +63,16 @@
     /* Advanced Options */
     "skipLibCheck": true, /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
-  }
+  },
+  "exclude": [
+    ".vscode",
+    "node_modules",
+    "4u",
+    "test",
+    ".gitignore",
+    ".npmignore",
+    "package-lock.json",
+    "package.json",
+    "tsconfig.json",
+  ]
 }
