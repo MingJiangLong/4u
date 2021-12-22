@@ -172,6 +172,19 @@ function findAllItem<T = any>(arr: Array<T>, predicate: (currentItem: T, index: 
 function deleteNullish(arr: any[]) {
     deleteAll(arr, v => isNullish(v))
 }
+// [{name:hello,age:2}]
+function groupBy<T = any>(
+    arr: Array<T>, groupKey: string,
+    format: (
+        currentValue: T,
+        index: number,
+        existGroupKeys: string[]) => void) {
+
+    let existKey: string[] = []
+    for (let i = 0; i < arr.length; i++) {
+        format(arr[i], i, [...existKey])
+    }
+}
 
 const ArrayUtil = {
     isArray,

@@ -1,6 +1,6 @@
 {
   "name": "@longjiang/4u",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "自用小工具",
   "main": "./dist/index.js",
   "keywords": [
