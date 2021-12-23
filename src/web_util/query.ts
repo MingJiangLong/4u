@@ -1,4 +1,4 @@
-import { I_KeyValue } from "../module/DataType";
+import { KeyValue } from "../module";
 
 declare const document: {
     location: {
@@ -29,7 +29,7 @@ function getParam(key?: string[] | string, url?: string) {
             ...result,
             [key]: value
         }
-    }, {} as I_KeyValue<string>)
+    }, <KeyValue<string>>{})
 
     if (!!!key) return paramsData
     if (typeof key === 'string') {
@@ -40,7 +40,7 @@ function getParam(key?: string[] | string, url?: string) {
             ...result,
             [current]: paramsData[current]
         }
-    }, {} as I_KeyValue<string>)
+    }, {})
 
 }
 

@@ -1,4 +1,4 @@
-import { BaseData, DataTypeName, Nullish } from "../module/DataType";
+import { DataTypeName, BaseData, Nullish } from "../module";
 
 /**
  * is

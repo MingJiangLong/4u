@@ -1,4 +1,4 @@
-import { BaseData } from "../module/DataType";
+import { GroupedBaseData } from "../interface/I_Array";
 import { is, isNullish } from "../type_util";
 
 /**
@@ -9,42 +9,6 @@ import { is, isNullish } from "../type_util";
  */
 function isArray<T = any>(value: any): value is Array<T> {
     return is(value, 'Array');
-}
-/**
- * 正序遍历每一个元素
- * @param arr      待遍历数组
- * @param callback 循环回调 返回为true 则中断遍历
- */
-function foreach<T = any>(arr: T[], callback: (currentValue: T, index: number) => boolean | void) {
-
-    let tempt = [...arr];
-    for (let i = 0; i < tempt.length; i++) {
-        let result = callback(tempt[i], i);
-        if (!!result) return;
-    }
-}
-
-/**
- * 倒叙遍历每一个元素
- * * 倒叙
- * @param arr      待遍历数组
- * @param callback 循环回调
- */
-function reverseForeach<T = any>(arr: T[], callback: (currentItem: T, index: number) => boolean | void) {
-    let tempt = [...arr].reverse();
-    foreach(tempt, callback)
-}
-
-function map<T = any>(arr: T[], callback: (currentValue: T, index: number) => any) {
-    for (let i = 0; i < arr.length; i++) {
-        arr[i] = callback(arr[i], i);
-    }
-}
-
-function reverseMap<T = any>(arr: T[], callback: (currentValue: T, index: number) => any) {
-    for (let i = getLastIndex(arr); i >= 0; i--) {
-        arr[i] = callback(arr[i], i);
-    }
 }
 
 function deleteOne<T = any>(arr: T[], callback: (currentValue: T, index: number) => boolean) {
@@ -172,26 +136,55 @@ function findAllItem<T = any>(arr: Array<T>, predicate: (currentItem: T, index: 
 function deleteNullish(arr: any[]) {
     deleteAll(arr, v => isNullish(v))
 }
-// [{name:hello,age:2}]
-function groupBy<T = any>(
-    arr: Array<T>, groupKey: string,
-    format: (
+
+/**
+ * 数组分组
+ * @param arr 
+ * @param group
+ * @example
+ *  // 根据姓名分组
+ *  group([
+ *      {name:'hello',world:2},{name:'hello',world:2}]
+ *      (data) => data.name
+ *  ) 
+ * @returns 
+ */
+function group<T = any>(
+    arr: Array<T>,
+    group: (
         currentValue: T,
         index: number,
-        existGroupKeys: string[]) => void) {
+        identifier: any[]
+    ) => string) {
 
-    let existKey: string[] = []
+    let result: GroupedBaseData<T>[] = [];
+
     for (let i = 0; i < arr.length; i++) {
-        format(arr[i], i, [...existKey])
+        const keys = result.map(v => v.key)
+        let identifier = group(arr[i], i, keys);
+
+        const find = result.find(v => {
+            return v.key === identifier
+        })
+
+        if (find) {
+            find.grouped = [
+                ...find.grouped,
+                arr[i]
+            ]
+        } else {
+            result.push({
+                key: identifier,
+                grouped: [arr[i]]
+            })
+        }
     }
+
+    return result;
 }
 
 const ArrayUtil = {
     isArray,
-    foreach,
-    reverseForeach,
-    map,
-    reverseMap,
     findOneIndex,
     findOneItem,
     findOne,
@@ -203,7 +196,7 @@ const ArrayUtil = {
     getItemBetween,
     deleteNullish,
     deleteAll,
-    deleteOne
+    deleteOne,
+    group
 }
 export default ArrayUtil;
-type GetCompareValue<T> = (currentItem: T) => BaseData

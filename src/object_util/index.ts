@@ -1,4 +1,4 @@
-import TypeUtil, { isArray, isObject } from "../type_util";
+import { isArray, isObject } from "../type_util";
 
 function deepClone(target: any, map = new WeakMap()) {
 

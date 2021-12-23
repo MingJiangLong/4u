@@ -1,5 +1,3 @@
-import { KeyValue } from "../module/DataType";
-
 export default function render(template: string, data: { [key: string]: any }, rule = /\{\{(\w+)\}\}/): string {
 
     // 判断模板里是否有模板字符串

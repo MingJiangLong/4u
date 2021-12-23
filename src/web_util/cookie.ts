@@ -1,14 +1,15 @@
-import { I_KeyValue } from "../module/DataType";
+import { I_Cookie } from "../interface/I_Cookie";
+import { KeyValue } from "../module";
 
 declare const document: { cookie: string, location: { hostname: string } }
 
 /**
  * max size 4k
  */
-export default class Cookie {
+export default class Cookie implements I_Cookie {
 
     constructor() {
-        if (!!!document) throw '该工具只支持在web环境使用';
+        if (!!!document) throw '@longjiang/4u Cookie only can be used within browers!';
     }
 
     /**
@@ -22,13 +23,12 @@ export default class Cookie {
         return this.parseCookieStr2Obj(cookie)[key];
     }
 
-
     /**
      * 合并cookie设置
      * @param config 
      * @returns 
      */
-    mergeCookieConfig(config?: I_CookieConfig) {
+    private mergeCookieConfig(config?: I_CookieConfig) {
         let defaultConfig: I_CookieConfig = {
             path: '/',
             domain: document.location.hostname,
@@ -40,7 +40,7 @@ export default class Cookie {
         }
     }
 
-    setCookie(cookies: I_KeyValue<string | number>, config?: I_CookieConfig) {
+    setCookie(cookies: KeyValue<string | number>, config?: I_CookieConfig) {
         let mergedConfig = this.mergeCookieConfig(config);
         for (let key in cookies) {
 
@@ -51,7 +51,6 @@ export default class Cookie {
 
             let str = this.parseCookieObj2Str(tempt)
             document.cookie = str;
-
         }
     }
 
@@ -79,7 +78,7 @@ export default class Cookie {
      * @param cookie 
      * @returns 
      */
-    private parseCookieStr2Obj(cookie: string): I_KeyValue<string | number> {
+    private parseCookieStr2Obj(cookie: string): KeyValue<string> {
         const keyValueArr = cookie.split(';');
         return keyValueArr.reduce((result, current) => {
             const firstEqualStrIndex = current.indexOf('=');
@@ -93,7 +92,7 @@ export default class Cookie {
         }, {})
     }
 
-    private parseCookieObj2Str(cookieObj: I_KeyValue<any>) {
+    private parseCookieObj2Str(cookieObj: KeyValue<any>) {
         const cookieKeyArr = Object.keys(cookieObj);
         return cookieKeyArr.reduce((result, key, index) => {
             if (index === 0) return `${key}=${cookieObj[key]}`
@@ -108,3 +107,5 @@ type I_CookieConfig = {
     path?: string
     expires?: Date
 }
+
+let a = new Cookie().getCookie()
