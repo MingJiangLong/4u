@@ -1,6 +1,10 @@
+import { TypeUtil } from "..";
 import PromiseUtil from "../promise_util";
 class FunctionUtil {
 
+    isFunction(value: any): value is FunctionConstructor {
+        return TypeUtil.isFunction(value)
+    }
     /**
      * 重试执行函数
      * ☆ 同步函数也会被转化成异步函数

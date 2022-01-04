@@ -1,7 +1,13 @@
 ### javascript 工具
 
+* 1.0.9
+     * FunctionUtil 
+      - 优化retry 增加调用次数返回
+      - 新增isFunction
+     * PromiseUtil 
+      - 优化retry 增加调用次数返回
 * 1.0.7& 1.0.8
-    * PromiseUtil 已过官方872测试用例
+    * PromiseUtil 
       - 新增 then
       - 新增 catch
       - 新增 resolve

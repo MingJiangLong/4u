@@ -1,6 +1,6 @@
 {
   "name": "@longjiang/4u",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "自用小工具",
   "scripts": {
     "test1": "promises-aplus-tests ./dist/promise_util/index.js"

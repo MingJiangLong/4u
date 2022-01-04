@@ -415,40 +415,54 @@ export default class PromiseUtil<EventualValue = any, Reason = any> {
      */
     static retry(promise: any, max = 1,) {
 
-        return new PromiseUtil((resolve, reject) => {
-            let tempt: PromiseUtil;
-            try {
-                if (TypeUtil.isFunction(promise)) {
-                    let fnResult = promise();
-                    if (TypeUtil.isPromiseUtilLike(fnResult)) {
-                        tempt = fnResult
+        function inFn(inPromise: any, inMax = 1) {
+            return new PromiseUtil((resolve, reject) => {
+                let tempt: PromiseUtil;
+                try {
+                    if (TypeUtil.isFunction(inPromise)) {
+                        let fnResult = inPromise();
+                        if (TypeUtil.isPromiseUtilLike(fnResult)) {
+                            tempt = fnResult
+                        } else {
+                            tempt = PromiseUtil.resolve(fnResult);
+                        }
+                    } else if (TypeUtil.isPromiseUtilLike(inPromise)) {
+                        tempt = inPromise
                     } else {
-                        tempt = PromiseUtil.resolve(fnResult);
+                        tempt = PromiseUtil.resolve(inPromise);
                     }
-                } else if (TypeUtil.isPromiseUtilLike(promise)) {
-                    tempt = promise
-                } else {
-                    tempt = PromiseUtil.resolve(promise);
-                }
 
-                tempt.then(resolve, (error) => {
-                    max--;
-                    if (max) {
-                        // 每次调用会创建新Promise
-                        PromiseUtil.retry(promise, max,).then(s => resolve(s), e => reject(e))
+                    tempt.then((s) => {
+                        resolve({
+                            count: max - inMax + 1,
+                            result: s
+                        })
+                    }, (error) => {
+                        inMax--;
+                        if (inMax > 1) {
+                            // 每次调用会创建新Promise
+                            inFn(inPromise, inMax).then(s => resolve(s), e => reject(e))
+                        } else {
+                            reject({
+                                count: max,
+                                result: error
+                            })
+                        }
+                    })
+                } catch (error) {
+                    inMax--;
+                    if (inMax > 1) {
+                        inFn(inPromise, inMax).then(s => resolve(s), e => reject(e))
                     } else {
-                        reject(error)
+                        reject({
+                            count: max,
+                            result: error
+                        })
                     }
-                })
-            } catch (error) {
-                max--;
-                if (max) {
-                    PromiseUtil.retry(promise, max,).then(s => resolve(s), e => reject(e))
-                } else {
-                    reject(error)
                 }
-            }
-        })
+            })
+        }
+        return inFn(promise, max)
     }
     static deferred() {
         let result: any = {};
