@@ -1,6 +1,6 @@
 ### javascript 工具
 
-* 1.0.7 
+* 1.0.7& 1.0.8
     * PromiseUtil 已过官方872测试用例
       - 新增 then
       - 新增 catch
