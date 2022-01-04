@@ -1,7 +1,6 @@
+import { TypeUtil } from "..";
 import { I_Cookie } from "../interface/I_Cookie";
 import { KeyValue } from "../module";
-
-declare const document: { cookie: string, location: { hostname: string } }
 
 /**
  * max size 4k
@@ -12,11 +11,6 @@ export default class Cookie implements I_Cookie {
         if (!!!document) throw '@longjiang/4u Cookie only can be used within browers!';
     }
 
-    /**
-     * 获取cookie
-     * @param key 不传key会返回所有cookie键值对 
-     * @returns 
-     */
     getCookie(key?: string) {
         const cookie = document.cookie;
         if (key === undefined) return this.parseCookieStr2Obj(cookie)
@@ -54,16 +48,16 @@ export default class Cookie implements I_Cookie {
         }
     }
 
-    /**
-     * 
-     * @param keys 
-     */
-    deleteCookie(keys: string[], config?: I_CookieConfig) {
+    deleteCookie(keys: string[] | string, config?: I_CookieConfig) {
         let mergedConfig = this.mergeCookieConfig({
             ...config,
             expires: new Date(1)
         });
 
+        if (TypeUtil.isString(keys)) {
+            keys = [keys]
+        }
+        if (!TypeUtil.isArray(keys)) return;
         keys.forEach(key => {
             let str = this.parseCookieObj2Str({
                 [key]: '',
@@ -107,5 +101,3 @@ type I_CookieConfig = {
     path?: string
     expires?: Date
 }
-
-let a = new Cookie().getCookie()

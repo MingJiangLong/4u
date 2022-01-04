@@ -1,11 +1,5 @@
 import { KeyValue } from "../module";
 
-declare const document: {
-    location: {
-        search: string
-    }
-}
-
 function getParam(key?: string[] | string, url?: string) {
     let search = '';
 

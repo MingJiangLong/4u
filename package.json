@@ -1,7 +1,10 @@
 {
   "name": "@longjiang/4u",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "自用小工具",
+  "scripts": {
+    "test1": "promises-aplus-tests ./dist/promise_util/index.js"
+  },
   "main": "./dist/index.js",
   "keywords": [
     "typescript"
@@ -9,13 +12,14 @@
   "devDependencies": {
     "@types/node": "^16.11.6",
     "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "promises-aplus-tests": "*"
   },
   "files": [
     "dist"
   ],
   "author": "longjiang",
   "license": "ISC",
-  "type": "module",
-  "types": "./dist/@types"
+  "types": "./dist/@types",
+  "dependencies": {}
 }

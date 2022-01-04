@@ -1,4 +1,6 @@
-import { DataTypeName, BaseData, Nullish } from "../module";
+import { PromiseUtilLike } from "../interface/I_PromiseUtil";
+import { DataTypeName, BaseData, Nullish, LikeNumber } from "../module";
+import PromiseUtil from "../promise_util";
 
 /**
  * is
@@ -65,7 +67,7 @@ export function isUndefined(value: any): value is undefined {
  * @param value 
  * @returns 
  */
-export function isNull(value: any): value is undefined {
+export function isNull(value: any): value is null {
     return value === null;
 }
 
@@ -102,7 +104,7 @@ export function isNullish(value: any): value is Nullish {
  * @param value 
  * @returns 
  */
-export function isLikeNumber(value: any) {
+export function isLikeNumber(value: any): value is LikeNumber {
     if (!isNumber(value) || !isString(value)) return false;
     if (isNumber(value)) return true;
     if (isNaN(+value)) return false;
@@ -118,6 +120,24 @@ export function isLikeNumber(value: any) {
 export function isBaseData(value: any): value is BaseData {
     return isString(value) || isNumber(value) || isNullish(value) || isSymbol(value) || isBoolean(value)
 }
+
+
+function isFunction(value: any): value is FunctionConstructor {
+    return is(value, 'Function')
+}
+
+function isPromiseUtilLike(value: any): value is PromiseUtil {
+    if (
+        value !== null &&
+        (isFunction(value) || isObject(value)) &&
+        isFunction(value.then)
+    ) {
+        return true
+    }
+    return false;
+}
+
+
 const TypeUtil = {
     isBaseData,
     isLikeNumber,
@@ -130,6 +150,11 @@ const TypeUtil = {
     isObject,
     isSymbol,
     isNull,
-    isUndefined
+    isUndefined,
+    isFunction,
+    isPromiseUtilLike
 }
+
+
+
 export default TypeUtil
