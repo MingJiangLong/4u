@@ -14,6 +14,10 @@
     * TypeUtil
       - 新增isFunction 判断是否是函数
       - 新增isPromiseUtilLike 用于判断是否是包含then
+    * FunctionUtil
+      * retry
+      * throttle
+      * debounce
 * 1.0.6 删除Location
 * 1.0.5
     * Array
