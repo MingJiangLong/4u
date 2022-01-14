@@ -1,11 +1,13 @@
 ### javascript 工具
-
+* 1.0.10 
+     *  Cookie 优化
 * 1.0.9
      * FunctionUtil 
       - 优化retry 增加调用次数返回
       - 新增isFunction
      * PromiseUtil 
       - 优化retry 增加调用次数返回
+     * Cookie 优化
 * 1.0.7& 1.0.8
     * PromiseUtil 
       - 新增 then

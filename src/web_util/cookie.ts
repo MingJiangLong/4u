@@ -11,10 +11,27 @@ export default class Cookie implements I_Cookie {
         if (!!!document) throw '@longjiang/4u Cookie only can be used within browers!';
     }
 
-    getCookie(key?: string) {
+    /**
+     * 
+     * @param key 
+     * @returns 
+     */
+    getCookie(key?: string | Array<string>) {
         const cookie = document.cookie;
-        if (key === undefined) return this.parseCookieStr2Obj(cookie)
-        return this.parseCookieStr2Obj(cookie)[key];
+        if (!cookie.length) return {}
+        let all = this.parseCookieStr2Obj(cookie)
+        if (Array.isArray(key)) {
+            return key.reduce((count, current) => {
+                return {
+                    ...count,
+                    [current]: all[current]
+                }
+            }, {})
+        }
+        if (TypeUtil.isString(key)) {
+            return all[key]
+        }
+        return all;
     }
 
     /**
@@ -25,7 +42,7 @@ export default class Cookie implements I_Cookie {
     private mergeCookieConfig(config?: I_CookieConfig) {
         let defaultConfig: I_CookieConfig = {
             path: '/',
-            domain: document.location.hostname,
+            domain: document?.location?.hostname,
             ...config
         }
         return {
@@ -36,6 +53,10 @@ export default class Cookie implements I_Cookie {
 
     setCookie(cookies: KeyValue<string | number>, config?: I_CookieConfig) {
         let mergedConfig = this.mergeCookieConfig(config);
+
+        /**
+         * 批量cookie 逐条设置
+         */
         for (let key in cookies) {
 
             let tempt = {
@@ -60,7 +81,7 @@ export default class Cookie implements I_Cookie {
         if (!TypeUtil.isArray(keys)) return;
         keys.forEach(key => {
             let str = this.parseCookieObj2Str({
-                [key]: '',
+                [`${key}`.trim()]: '',
                 ...mergedConfig
             })
             document.cookie = str;
@@ -76,7 +97,9 @@ export default class Cookie implements I_Cookie {
         const keyValueArr = cookie.split(';');
         return keyValueArr.reduce((result, current) => {
             const firstEqualStrIndex = current.indexOf('=');
-            const key = current.substring(0, firstEqualStrIndex)
+
+            // 获取的cookie key 前缀可能有空格
+            const key = current.substring(0, firstEqualStrIndex).trim()
             const value = current.substring(firstEqualStrIndex + 1)
 
             return {

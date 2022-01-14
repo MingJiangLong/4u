@@ -7,6 +7,7 @@ class FunctionUtil {
     }
     /**
      * 重试执行函数
+     * TODO:将同步和异步函数拆开
      * ☆ 同步函数也会被转化成异步函数
      * @example
      *    // 同步函数
