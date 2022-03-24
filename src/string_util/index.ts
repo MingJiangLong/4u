@@ -1,4 +1,4 @@
-import TypeUtil from "../type_util";
+import TypeUtil, { isObject } from "../type_util";
 
 
 function isString(value: any) {
@@ -20,6 +20,25 @@ function generateStr(len?: number) {
     return result;
 }
 
+/**
+ * 格式化字符串
+ * @param str 
+ * @param args 
+ * @example
+ * format('dd{0}')
+ * format('dd{}')
+ * format('dd{name(数字字母下划线$)}')
+ * @returns 
+ */
+function format(str: string, dict: Object) {
+    let pos = 0;
+
+    if (dict instanceof Object) throw 'argument[1] must be an Object or Array!'
+    return `${str}`.replace(/\{([\d\w_$]*)\}/gi, (match1, match2) => {
+
+        return ''
+    })
+}
 
 const StringUtil = {
     isString,

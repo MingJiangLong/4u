@@ -1,4 +1,6 @@
 ### javascript 工具
+* 1.0.11
+     *  增加to函数 封装Promise结果
 * 1.0.10 
      *  Cookie 优化
 * 1.0.9
